@@ -1,5 +1,6 @@
-# Massa Go SDK
 ![massa-go](https://raw.githubusercontent.com/jwmdev/massa-go/master/media/massa-go.svg)
+
+# Massa Go SDK
 A comprehensive Go toolkit for the Massa blockchain ecosystem, providing smart contract development capabilities, client libraries, and wallet functionality.
 
 ## 🚀 Features
