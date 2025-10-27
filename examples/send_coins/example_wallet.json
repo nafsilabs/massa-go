@@ -1,0 +1,25 @@
+{
+  "accounts": [
+    {
+      "nickname": "example-account",
+      "address": {
+        "address": "AU13AftnUhkUEpP55TA2t8onLAE5rrHowEhkY1STjpYWAJpk3Mfi",
+        "isEOA": true
+      },
+      "keyPair": {
+        "nonce": "BRLhiZYTLeQmbjcZ",
+        "privateKey": "RoyGNQTqQLI8S1lMNbLUC3veBV6YzFOuHDGF19AgsXo3j7ln3OIqWGse/2Glj7OTTZ8IqvjMejQ78bDPJisQ1QP/fhrmERMH7ClvEZh0ZWk=",
+        "publicKey": "K3dbD+N8yMWWhAZhtYiLzSCDEUDyHhtNlQk8iwdGEGU=",
+        "salt": "Tu3RvpB8ZoLvKeusUy+Jew=="
+      },
+      "balance": 0,
+      "candidateBalance": 0,
+      "status": "ok",
+      "createdAt": "2025-10-27T04:19:58.078887+03:00",
+      "updatedAt": "2025-10-27T04:19:58.078887+03:00"
+    }
+  ],
+  "version": "1.0.0",
+  "network": "mainnet",
+  "createdAt": "unknown"
+}
