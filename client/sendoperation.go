@@ -5,12 +5,10 @@ import (
 	"context"
 	b64 "encoding/base64"
 	"encoding/binary"
-	"encoding/json"
 	"errors"
 	"fmt"
 
-	"github.com/massalabs/station/pkg/node"
-	"github.com/nafsilabs/massa-go/client/base58"
+	"github.com/nafsilabs/massa-go/utils"
 	"github.com/nafsilabs/massa-go/wallet"
 )
 
@@ -27,9 +25,7 @@ const (
 
 //nolint:tagliatelle
 type sendOperationsReq struct {
-	SerializedContent JSONableSlice `json:"serialized_content"`
-	PublicKey         string        `json:"creator_public_key"`
-	Signature         string        `json:"signature"`
+	Operations [][]byte `protobuf:"bytes,1,rep,name=operations,proto3" json:"operations,omitempty"`
 }
 
 type Operation interface {
@@ -60,34 +56,37 @@ func Call(
 ) (*OperationResponse, error) {
 
 	//msg contains expiry, fee and operation
-	msg, _, err := MakeOperation(c, expiry, fee, operation)
+	operationData, _, err := MakeOperation(c, expiry, fee, operation)
 	if err != nil {
 		return nil, err
 	}
 
-	// content, err := createOperationContent(description, msgB64, c.ChainID)
-	// if err != nil {
-	// 	return nil, fmt.Errorf("creating operation content: %w", err)
-	// }
+	//fmt.Printf("operation data: %v\n", operationData)
 
-	// res, err := signer.Sign(nickname, []byte(content))
-	// if err != nil {
-	// 	return nil, fmt.Errorf("signing operation: %w", err)
-	// }
+	//versioned public key
+	keyPairRaw, err := account.Unlock(password)
+	if err != nil {
+		return nil, err
+	}
 
-	// signature, err := b64.StdEncoding.DecodeString(res.Signature)
-	// if err != nil {
-	// 	return nil, fmt.Errorf("decoding '%s' B64: %w", res.Signature, err)
-	// }
+	versionedPublicKey := keyPairRaw.VersionedPublicKeyBytes()
 
-	// if res.Operation != "" {
-	// 	msg, err = b64.StdEncoding.DecodeString(res.Operation)
-	// 	if err != nil {
-	// 		return nil, fmt.Errorf("decoding '%s' B64: %w", res.Operation, err)
-	// 	}
-	// }
+	content := createOperationContent(c.ChainID, versionedPublicKey, operationData)
+	//fmt.Printf("Signature data: %v\n", content)
 
-	resp, err := MakeRPCCall(msg, signature, res.PublicKey, c)
+	signature := keyPairRaw.VersionedSignatureBytes(content)
+
+	//fmt.Printf("Signature: %v\n", signature)
+
+	// //data to be transmitted
+	msg := make([]byte, 0)
+	msg = append(msg, signature...)
+	msg = append(msg, versionedPublicKey...)
+	msg = append(msg, content...)
+
+	//fmt.Printf("data to be transmitted: %v\n", msg)
+	//return nil, nil
+	resp, err := MakeRPCCall(msg, c)
 	if err != nil {
 		return nil, err
 	}
@@ -95,33 +94,28 @@ func Call(
 	return &OperationResponse{OperationID: resp[0]}, nil
 }
 
-func createOperationContent(description string, msgB64 string, chainID uint64) (string, error) {
-	operationContent := OperationContent{
-		Description: description,
-		Operation:   msgB64,
-		ChainID:     chainID,
-	}
+func createOperationContent(chainID utils.NetworkType, versionedPublicKey, operation []byte) []byte {
+	msg := make([]byte, 0)
+	// network type
+	networkTypeData := chainID.Serialize()
+	msg = append(msg, networkTypeData...)
 
-	jsonContent, err := json.Marshal(operationContent)
-	if err != nil {
-		return "", fmt.Errorf("marshalling operation content: %w", err)
-	}
+	//public key
+	msg = append(msg, versionedPublicKey...)
 
-	return string(jsonContent), nil
+	// operation
+	msg = append(msg, operation...)
+
+	return msg
 }
 
-func MakeRPCCall(msg []byte, signature []byte, publicKey string, client *node.Client) ([]string, error) {
-	sendOpParams := [][]sendOperationsReq{
-		{
-			sendOperationsReq{
-				SerializedContent: msg,
-				Signature:         base58.CheckEncode(signature),
-				PublicKey:         publicKey,
-			},
-		},
+func MakeRPCCall(msg []byte, c *Client) ([]string, error) {
+
+	sendOpParams := sendOperationsReq{
+		Operations: [][]byte{msg},
 	}
 
-	rawResponse, err := client.RPCClient.Call(
+	rawResponse, err := c.RPCClient.Call(
 		context.Background(),
 		"send_operations",
 		sendOpParams,
@@ -147,13 +141,15 @@ func MakeRPCCall(msg []byte, signature []byte, publicKey string, client *node.Cl
 // MakeOperation concatinets fee, expiry and operation into a single message byte slice,
 // then encodes it as base64 for RPC transmission.
 // It returns the message byte slice, its base64 encoding, and an error if any.
-func MakeOperation(client *node.Client, expiry uint64, fee uint64, operation Operation) ([]byte, string, error) {
-	exp, err := node.NextSlot(client)
+func MakeOperation(c *Client, expiry uint64, fee uint64, operation Operation) ([]byte, string, error) {
+	exp, err := NextSlot(c)
 	if err != nil {
 		return nil, "", fmt.Errorf("calling NextSlot: %w", err)
 	}
 
 	expiry += exp
+
+	//expiry = 100
 
 	msg := message(expiry, fee, operation)
 

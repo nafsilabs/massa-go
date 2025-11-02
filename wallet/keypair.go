@@ -282,6 +282,15 @@ func (kp *KeyPairRaw) ToBase58PublicKey() string {
 	return "P" + base58.Encode(versionedKey)
 }
 
+// ToBase58PublicKey returns the public key in Massa base58 format
+func (kp *KeyPairRaw) VersionedPublicKeyBytes() []byte {
+	// Create Massa public key format: version (0x00) + 32-byte public key
+	versionedKey := make([]byte, 33)
+	versionedKey[0] = 0x00               // Version byte
+	copy(versionedKey[1:], kp.PublicKey) // Copy 32-byte public key
+	return versionedKey
+}
+
 // Sign signs a message using the private key
 func (kp *KeyPairRaw) Sign(message []byte) []byte {
 	return ed25519.Sign(kp.PrivateKey, message)
@@ -302,7 +311,8 @@ func PublicKeyFromPrivate(privateKey ed25519.PrivateKey) ed25519.PublicKey {
 // encoded with a single version byte (0x00) followed by the raw signature bytes.
 // Example output shape: [0x00 || 64-byte ed25519 signature]
 func (kp *KeyPairRaw) VersionedSignatureBytes(message []byte) []byte {
-	sig := kp.Sign(message)
+	hash := blake3Hash(message)
+	sig := kp.Sign(hash)
 	out := make([]byte, 1+len(sig))
 	out[0] = 0x00 // version
 	copy(out[1:], sig)

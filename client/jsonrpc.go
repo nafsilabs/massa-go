@@ -6,6 +6,7 @@ import (
 	"net/http/httputil"
 	"os"
 
+	"github.com/nafsilabs/massa-go/utils"
 	"github.com/ybbus/jsonrpc/v3"
 )
 
@@ -43,13 +44,13 @@ func (t *withLoggingRoundTripper) RoundTrip(request *http.Request) (*http.Respon
 
 type Client struct {
 	RPCClient jsonrpc.RPCClient
-	ChainID   uint64
+	ChainID   utils.NetworkType
 }
 
 //nolint:exhaustruct
 func NewClient(isMainnet bool) *Client {
 	url := MainnetURL
-	chainID := uint64(MainnetChainID)
+	chainID := utils.MAINNET
 	if !isMainnet {
 		url = BuildnetURL
 		chainID = BuildnetChainID
