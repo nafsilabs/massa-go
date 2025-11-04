@@ -8,7 +8,7 @@ import (
 	"time"
 
 	"github.com/nafsilabs/massa-go/client"
-	examples "github.com/nafsilabs/massa-go/examples"
+	"github.com/nafsilabs/massa-go/examples"
 	"github.com/nafsilabs/massa-go/utils"
 	"github.com/nafsilabs/massa-go/wallet"
 )
@@ -30,13 +30,6 @@ func main() {
 		}
 	}
 
-	// Prefer the known calling address from constants for clarity, but fall back
-	// to the account's derived address if absent.
-	callerAddr := examples.CallingAddress
-	if callerAddr == "" && acc.Address != nil {
-		callerAddr = acc.Address.String()
-	}
-
 	// Initialize gRPC client
 	fmt.Println("Connecting to Massa buildnet...")
 	cfg := client.ClientConfig{
@@ -46,22 +39,26 @@ func main() {
 		ChainID:        utils.BUILDNET,
 		Account:        acc,
 	}
-	grpc, err := client.NewMassaClient(&cfg)
 	if err != nil {
 		log.Fatal("Failed to create gRPC client:", err)
 	}
+	// Create operation sender
+	grpc, err := client.NewMassaClient(&cfg)
+	if err != nil {
+		log.Fatal("Failed to create massa client:", err)
+	}
 	defer grpc.Close()
 	fmt.Println("Connected successfully!")
+	fmt.Println("Buying roles...")
 
-	// Create operation sender
-
-	opID, err := grpc.SendTransaction(context.Background(), examples.Nickname, examples.Password, examples.RecipientAddress, 5.7, 0.01)
+	opID, err := grpc.BuyRolls(context.Background(), examples.Nickname, examples.Password, 2, 0.01)
 	if err != nil {
-		fmt.Printf("failed to send transaction: %v\n", err)
+		fmt.Printf("failed to buy rolls: %v\n", err)
 		os.Exit(1)
 	}
-	fmt.Printf("Operation sent successfully! Operation ID: %s\n", opID)
+	fmt.Printf("Buy Rolls Operation Created: %v\n", opID)
+	fmt.Printf("  Roll Count: %d\n", 2)
+	fmt.Printf("  Fee: 100 NanoMassa\n")
+	fmt.Printf("  Expire Period: 10\n\n")
 
-	// Wait a bit to ensure logs are printed before exiting
-	time.Sleep(2 * time.Second)
 }

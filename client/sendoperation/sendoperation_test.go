@@ -1,10 +1,9 @@
-package client
+package sendoperation
 
 import (
 	"encoding/base64"
 	"testing"
 
-	"github.com/nafsilabs/massa-go/client/sendoperation"
 	"github.com/nafsilabs/massa-go/client/sendoperation/buyrolls"
 	"github.com/nafsilabs/massa-go/client/sendoperation/callsc"
 	"github.com/nafsilabs/massa-go/client/sendoperation/executesc"
@@ -152,7 +151,7 @@ func TestSerializeDeserializeBuyRollsMessage(t *testing.T) {
 		operation := buyrolls.New(testcase.countRolls)
 
 		// Simulate decoding and deserialization
-		buyRolls, err := sendoperation.RollDecodeMessage(operation.Message())
+		buyRolls, err := RollDecodeMessage(operation.Message())
 		require.NoError(t, err, "Error decoding BuyRolls")
 
 		// Verify the countRolls field
@@ -177,7 +176,7 @@ func TestSerializeDeserializeSellRollsMessage(t *testing.T) {
 		operation := sellrolls.New(testcase.countRolls)
 
 		// Simulate decoding and deserialization
-		sellRolls, err := sendoperation.RollDecodeMessage(operation.Message())
+		sellRolls, err := RollDecodeMessage(operation.Message())
 		require.NoError(t, err, "Error decoding SellRolls")
 
 		// Verify the countRolls field

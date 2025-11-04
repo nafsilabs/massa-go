@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 
+	"github.com/nafsilabs/massa-go/client/sendoperation"
 	util "github.com/nafsilabs/massa-go/utils"
 	"github.com/nafsilabs/massa-go/wallet"
 )
@@ -13,7 +14,7 @@ const (
 )
 
 func addXPercentage(x uint64) uint64 {
-	return min(x+x*PercentageGasLimit/100, MaxGasAllowedCallSC)
+	return min(x+x*PercentageGasLimit/100, sendoperation.MaxGasAllowedCallSC)
 }
 
 func EstimateGasCostCallSC(
@@ -62,7 +63,7 @@ func ReadOnlyCallSC(
 	readOnlyCallParams := [][]ReadOnlyCallParams{
 		{
 			ReadOnlyCallParams{
-				MaxGas:         MaxGasAllowedCallSC,
+				MaxGas:         sendoperation.MaxGasAllowedCallSC,
 				Coins:          coins,
 				Fee:            fee,
 				TargetAddress:  targetAddr,
@@ -154,7 +155,7 @@ func ReadOnlyExecuteSC(
 		{
 			ReadOnlyExecuteParams{
 				Coins:              coins,
-				MaxGas:             MaxGasAllowedExecuteSC,
+				MaxGas:             sendoperation.MaxGasAllowedExecuteSC,
 				Fee:                fee,
 				Address:            callerAddr,
 				Bytecode:           contract,

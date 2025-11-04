@@ -7,16 +7,16 @@
         "isEOA": true
       },
       "keyPair": {
-        "nonce": "TET6jTGU/PQJIAdD",
-        "privateKey": "xVpDbXlVu37ZBfvWkwpDoVEHrXG9OyQRiShyHjfFTHibV+T2sskM6RTEQ25T4BBwhpOIzc6/xalaXllXiXPZRQEpMm0cbhutWw6FxLjH+x4=",
+        "nonce": "/KYN/0ADmQ5CfBvP",
+        "privateKey": "cQCuknEtVCrg5jaEjtwTtYdUZElPYKJ2OC0FCmUQez0mxlQ5+J2mZ7GIsCFh2zBSrlFGBQ333P+rFYLi13mYWzpxXNNcXCQhu6PaiDK3R3o=",
         "publicKey": "K3dbD+N8yMWWhAZhtYiLzSCDEUDyHhtNlQk8iwdGEGU=",
-        "salt": "reK8rwzi0riIlvvf0Xy6ZA=="
+        "salt": "RqPJNUkrBrSl1pbeOOEq2A=="
       },
       "balance": 0,
       "candidateBalance": 0,
       "status": "ok",
-      "createdAt": "2025-11-04T01:19:13.577034+03:00",
-      "updatedAt": "2025-11-04T01:19:13.577034+03:00"
+      "createdAt": "2025-11-04T18:28:56.714639+03:00",
+      "updatedAt": "2025-11-04T18:28:56.714639+03:00"
     }
   ],
   "version": "1.0.0",

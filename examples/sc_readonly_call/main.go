@@ -1,37 +1,48 @@
 package main
 
 import (
+	"context"
 	"fmt"
+	"log"
+	"time"
 
 	"github.com/nafsilabs/massa-go/client"
 	srl "github.com/nafsilabs/massa-go/sc/serialisation"
+	"github.com/nafsilabs/massa-go/utils"
 )
 
 func main() {
 	smartContractAddress := "AS12cdcRczrDe3TxeGqQU6TFWVuYnVN4SeSvJdQNvEvHZ2YwMafFa"
 	callerAddress := "AU1y3oYTgK8RGzLWFVAGL3JxHLdTVKxBPHrwbo2Kj8a2CSbeMug"
 
-	c := client.NewClient(false)
-
 	// Build the argument using Args (writes a 4-byte little-endian length then data)
 	name := "alice"
 	args := srl.NewArgs(nil)
 	args.AddString(name)
-	param := client.JSONableSlice(args.Serialise())
+	fee := 0.01
+	coins := 1.0
+	params := args.Serialise()
+	targetFunction := "getAge"
 
-	// ReadOnlyCallSC expects a []byte parameter; convert from JSONableSlice.
-	resp, err := client.ReadOnlyCallSC(smartContractAddress, "getAge", []byte(param), "1", "1", callerAddress, c)
-	if err != nil {
-		fmt.Printf("error calling function: %v\n", err)
-		return
+	cfg := client.ClientConfig{
+		Address:        "buildnet.massa.net:33037",
+		UseTLS:         false,
+		DefaultTimeout: 30 * time.Second,
+		ChainID:        utils.BUILDNET,
 	}
+	grpc, err := client.NewMassaClient(&cfg)
+	if err != nil {
+		log.Fatal("Failed to create gRPC client:", err)
+	}
+	defer grpc.Close()
+	fmt.Println("Connected successfully!")
 
-	fmt.Printf("response: %+v\n", resp)
+	resp, err := grpc.ReadOnlyCallSC(context.Background(), smartContractAddress, targetFunction, params, coins, fee, callerAddress)
 
-	//fmt.Printf("decoding response: %v\n", resp.Result.Ok)
+	fmt.Printf("decoding response: %v\n", resp.GetCallResult())
 
 	// Use helper to extract the returned payload bytes from the ReadOnlyResult.
-	payload, err := client.ReadOnlyResultToBytes(resp)
+	payload := resp.GetCallResult()
 	if err != nil {
 		fmt.Printf("error extracting payload: %v\n", err)
 		return
@@ -44,5 +55,5 @@ func main() {
 		return
 	}
 
-	fmt.Printf("Age of %s is %d\n", name, age)
+	fmt.Printf("Age of %s is %d years\n", name, age)
 }
