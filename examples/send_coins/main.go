@@ -1,10 +1,12 @@
 package main
 
 import (
+	"context"
 	"fmt"
+	"log"
 	"os"
+	"time"
 
-	"github.com/k0kubun/pp"
 	"github.com/nafsilabs/massa-go/client"
 	"github.com/nafsilabs/massa-go/client/sendoperation/transaction"
 	examples "github.com/nafsilabs/massa-go/examples"
@@ -45,25 +47,61 @@ func main() {
 	fee := uint64(10_000_000)
 	coins := uint64(1_000_000_000)
 	desc := "example send coins"
-	expiryDelta := uint64(100)
+	expiryDelta := uint64(20)
 
 	op, err := transaction.New(examples.RecipientAddress, coins)
 	if err != nil {
 		fmt.Printf("error creating transaction operation: %v\n", err)
 	}
 
-	res, err := client.Call(c, expiryDelta, fee, op, acc, password, desc)
+	opData, err := client.MakeOperation2(c, expiryDelta, fee, op, acc, password, desc)
 	if err != nil {
-		fmt.Printf("send coin failed: %v\n", err)
+		fmt.Printf("failed to make the operation: %v\n", err)
 		os.Exit(1)
 	}
-	pp.Printf("operation response: %v\n", res)
+
+	fmt.Printf("data to be transmitted: %v\n", opData)
+
+	// Initialize gRPC client
+	fmt.Println("Connecting to Massa buildnet...")
+	grpcClient, err := client.NewMassaGrpcClient(client.ClientConfig{
+		Address:        "buildnet.massa.net:33037",
+		UseTLS:         false,
+		DefaultTimeout: 30 * time.Second,
+	})
+	if err != nil {
+		log.Fatal("Failed to create gRPC client:", err)
+	}
+	defer grpcClient.Close()
+	fmt.Println("Connected successfully!")
+
+	// Create operation sender
+	grpc := client.NewOperationSender(grpcClient)
+	opID, err := grpc.SendOperation(
+		context.Background(),
+		// op,
+		// fee,
+		// expiryDelta,
+		// signature,
+		// publicKey,
+		opData,
+	)
+	if err != nil {
+		fmt.Printf("failed to send operation: %v\n", err)
+		os.Exit(1)
+	}
+
+	fmt.Printf("Operation sent successfully! Operation ID: %s\n", opID)
+
+	// Wait a bit to ensure logs are printed before exiting
+	time.Sleep(2 * time.Second)
 }
 
 //dart
-//Operation data: [128, 173, 226, 4, 100, 0, 0, 0, 2, 113, 251, 209, 172, 201, 199, 121, 170, 2, 40, 170, 110, 88, 109, 62, 193, 8, 217, 118, 52, 99, 28, 216, 174, 84, 7, 76, 35, 129, 140, 125, 128, 148, 235, 220, 3]
-// Signature data: [0, 0, 0, 0, 4, 160, 248, 254, 0, 43, 119, 91, 15, 227, 124, 200, 197, 150, 132, 6, 97, 181, 136, 139, 205, 32, 131, 17, 64, 242, 30, 27, 77, 149, 9, 60, 139, 7, 70, 16, 101, 128, 173, 226, 4, 100, 0, 0, 0, 2, 113, 251, 209, 172, 201, 199, 121, 170, 2, 40, 170, 110, 88, 109, 62, 193, 8, 217, 118, 52, 99, 28, 216, 174, 84, 7, 76, 35, 129, 140, 125, 128, 148, 235, 220, 3]
+//0, 89, 57, 236, 147, 87, 194, 200, 192, 227, 51, 185, 45, 254, 49, 129, 125, 44, 230, 248, 104, 154, 225, 131, 47, 155, 30, 158, 160, 96, 253, 198, 83, 10, 124, 243, 129, 233, 6, 240, 57, 185, 106, 138, 35, 209, 65, 21, 163, 68, 148, 46, 17, 154, 185, 121, 131, 175, 22, 207, 102, 187, 144, 204, 2, 0, 43, 119, 91, 15, 227, 124, 200, 197, 150, 132, 6, 97, 181, 136, 139, 205, 32, 131, 17, 64, 242, 30, 27, 77, 149, 9, 60, 139, 7, 70, 16, 101,| 128, 173, 226, 4, 100, 0, 0, 0, 2, 113, 251, 209, 172, 201, 199, 121, 170, 2, 40, 170, 110, 88, 109, 62, 193, 8, 217, 118, 52, 99, 28, 216, 174, 84, 7, 76, 35, 129, 140, 125, 128, 148, 235, 220, 3
 
 //go
-//operation data: [128 173 226 4 100 0 0 0 2 113 251 209 172 201 199 121 170 2 40 170 110 88 109 62 193 8 217 118 52 99 28 216 174 84 7 76 35 129 140 125 128 148 235 220 3]
-// Signature data: [0 0 0 0 4 160 248 254 0 43 119 91 15 227 124 200 197 150 132 6 97 181 136 139 205 32 131 17 64 242 30 27 77 149 9 60 139 7 70 16 101 128 173 226 4 100 0 0 0 2 113 251 209 172 201 199 121 170 2 40 170 110 88 109 62 193 8 217 118 52 99 28 216 174 84 7 76 35 129 140 125 128 148 235 220 3]
+//0, 89, 57, 236, 147, 87, 194, 200, 192, 227, 51, 185, 45, 254, 49, 129, 125, 44, 230, 248, 104, 154, 225, 131, 47, 155, 30, 158, 160, 96, 253, 198, 83, 10, 124, 243, 129, 233, 6, 240, 57, 185, 106, 138, 35, 209, 65, 21, 163, 68, 148, 46, 17, 154, 185, 121, 131, 175, 22, 207, 102, 187, 144, 204, 2, 0, 43, 119, 91, 15, 227, 124, 200, 197, 150, 132, 6, 97, 181, 136, 139, 205, 32, 131, 17, 64, 242, 30, 27, 77, 149, 9, 60, 139, 7, 70, 16, 101,| 0, 0, 0, 0, 4, 160, 248, 254 0, 43, 119, 91, 15, 227, 124, 200, 197, 150, 132, 6, 97, 181, 136, 139, 205, 32, 131, 17, 64, 242, 30, 27, 77, 149, 9, 60, 139, 7, 70, 16, 101, | 128, 173, 226, 4, 100, 0, 0, 0, 2, 113, 251, 209, 172, 201, 199, 121, 170, 2, 40, 170, 110, 88, 109, 62, 193, 8, 217, 118, 52, 99, 28, 216, 174, 84, 7, 76, 35, 129, 140, 125, 128, 148, 235, 220, 3
+
+//go revised
+//0, 89, 57, 236, 147, 87, 194, 200, 192, 227, 51, 185, 45, 254, 49, 129, 125, 44, 230, 248, 104, 154, 225, 131, 47, 155, 30, 158, 160, 96, 253, 198, 83, 10, 124, 243, 129, 233, 6, 240, 57, 185, 106, 138, 35, 209, 65, 21, 163, 68, 148, 46, 17, 154, 185, 121, 131, 175, 22, 207, 102, 187, 144, 204, 2, 0, 43, 119, 91, 15, 227, 124, 200, 197, 150, 132, 6, 97, 181, 136, 139, 205, 32, 131, 17, 64, 242, 30, 27, 77, 149, 9, 60, 139, 7, 70, 16, 101, 128, 173, 226, 4, 100, 0, 0, 0, 2, 113, 251, 209, 172, 201, 199, 121, 170, 2, 40, 170, 110, 88, 109, 62, 193, 8, 217, 118, 52, 99, 28, 216, 174, 84, 7, 76, 35, 129, 140, 125, 128, 148, 235, 220, 3

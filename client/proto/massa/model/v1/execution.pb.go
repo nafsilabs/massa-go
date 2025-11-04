@@ -3548,8 +3548,8 @@ const file_massa_model_v1_execution_proto_rawDesc = "" +
 	"\x1cCOIN_ORIGIN_ASYNC_MSG_CANCEL\x10\x1b\x12!\n" +
 	"\x1dCOIN_ORIGIN_CREATE_SC_STORAGE\x10\x1c\x12!\n" +
 	"\x1dCOIN_ORIGIN_DATASTORE_STORAGE\x10\x1d\x12\x1f\n" +
-	"\x1bCOIN_ORIGIN_DEFERRED_CREDIT\x10\x1eB\xa5\x01\n" +
-	"\x12com.massa.model.v1P\x01Z9github.com/jwmdev/massa-go/client/proto/massa/model/v1;v1\xa2\x02\x06MMODEL\xaa\x02\x12Com.Massa.Model.v1\xba\x02\x06MMODEL\xca\x02\x12Com\\Massa\\Model\\V1\xea\x02\x15Com::Massa::Model::V1b\x06proto3"
+	"\x1bCOIN_ORIGIN_DEFERRED_CREDIT\x10\x1eB\xa8\x01\n" +
+	"\x12com.massa.model.v1P\x01Z<github.com/nafsilabs/massa-go/client/proto/massa/model/v1;v1\xa2\x02\x06MMODEL\xaa\x02\x12Com.Massa.Model.v1\xba\x02\x06MMODEL\xca\x02\x12Com\\Massa\\Model\\V1\xea\x02\x15Com::Massa::Model::V1b\x06proto3"
 
 var (
 	file_massa_model_v1_execution_proto_rawDescOnce sync.Once

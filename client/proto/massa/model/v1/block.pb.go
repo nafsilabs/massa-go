@@ -796,8 +796,8 @@ const file_massa_model_v1_block_proto_rawDesc = "" +
 	"\"BLOCK_STATUS_NON_FINAL_BLOCKCLIQUE\x10\x01\x12\x16\n" +
 	"\x12BLOCK_STATUS_FINAL\x10\x02\x12+\n" +
 	"'BLOCK_STATUS_NON_FINAL_ALTERNATE_CLIQUE\x10\x03\x12\x1a\n" +
-	"\x16BLOCK_STATUS_DISCARDED\x10\x04B\xa5\x01\n" +
-	"\x12com.massa.model.v1P\x01Z9github.com/jwmdev/massa-go/client/proto/massa/model/v1;v1\xa2\x02\x06MMODEL\xaa\x02\x12Com.Massa.Model.v1\xba\x02\x06MMODEL\xca\x02\x12Com\\Massa\\Model\\V1\xea\x02\x15Com::Massa::Model::V1b\x06proto3"
+	"\x16BLOCK_STATUS_DISCARDED\x10\x04B\xa8\x01\n" +
+	"\x12com.massa.model.v1P\x01Z<github.com/nafsilabs/massa-go/client/proto/massa/model/v1;v1\xa2\x02\x06MMODEL\xaa\x02\x12Com.Massa.Model.v1\xba\x02\x06MMODEL\xca\x02\x12Com\\Massa\\Model\\V1\xea\x02\x15Com::Massa::Model::V1b\x06proto3"
 
 var (
 	file_massa_model_v1_block_proto_rawDescOnce sync.Once

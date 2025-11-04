@@ -401,8 +401,8 @@ const file_massa_model_v1_endorsement_proto_rawDesc = "" +
 	"\x0eendorsement_id\x18\x01 \x01(\tR\rendorsementId\x12\x17\n" +
 	"\ain_pool\x18\x02 \x01(\bR\x06inPool\x12\x1b\n" +
 	"\tin_blocks\x18\x03 \x03(\tR\binBlocks\x12\x19\n" +
-	"\bis_final\x18\x04 \x01(\bR\aisFinalB\xa5\x01\n" +
-	"\x12com.massa.model.v1P\x01Z9github.com/jwmdev/massa-go/client/proto/massa/model/v1;v1\xa2\x02\x06MMODEL\xaa\x02\x12Com.Massa.Model.v1\xba\x02\x06MMODEL\xca\x02\x12Com\\Massa\\Model\\V1\xea\x02\x15Com::Massa::Model::V1b\x06proto3"
+	"\bis_final\x18\x04 \x01(\bR\aisFinalB\xa8\x01\n" +
+	"\x12com.massa.model.v1P\x01Z<github.com/nafsilabs/massa-go/client/proto/massa/model/v1;v1\xa2\x02\x06MMODEL\xaa\x02\x12Com.Massa.Model.v1\xba\x02\x06MMODEL\xca\x02\x12Com\\Massa\\Model\\V1\xea\x02\x15Com::Massa::Model::V1b\x06proto3"
 
 var (
 	file_massa_model_v1_endorsement_proto_rawDescOnce sync.Once

@@ -200,8 +200,8 @@ const file_massa_model_v1_address_proto_rawDesc = "" +
 	"\x0fAddressCategory\x12 \n" +
 	"\x1cADDRESS_CATEGORY_UNSPECIFIED\x10\x00\x12!\n" +
 	"\x1dADDRESS_CATEGORY_USER_ADDRESS\x10\x01\x12\x1f\n" +
-	"\x1bADDRESS_CATEGORY_SC_ADDRESS\x10\x02B\xa5\x01\n" +
-	"\x12com.massa.model.v1P\x01Z9github.com/jwmdev/massa-go/client/proto/massa/model/v1;v1\xa2\x02\x06MMODEL\xaa\x02\x12Com.Massa.Model.v1\xba\x02\x06MMODEL\xca\x02\x12Com\\Massa\\Model\\V1\xea\x02\x15Com::Massa::Model::V1b\x06proto3"
+	"\x1bADDRESS_CATEGORY_SC_ADDRESS\x10\x02B\xa8\x01\n" +
+	"\x12com.massa.model.v1P\x01Z<github.com/nafsilabs/massa-go/client/proto/massa/model/v1;v1\xa2\x02\x06MMODEL\xaa\x02\x12Com.Massa.Model.v1\xba\x02\x06MMODEL\xca\x02\x12Com\\Massa\\Model\\V1\xea\x02\x15Com::Massa::Model::V1b\x06proto3"
 
 var (
 	file_massa_model_v1_address_proto_rawDescOnce sync.Once

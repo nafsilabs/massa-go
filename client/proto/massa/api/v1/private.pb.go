@@ -9,7 +9,7 @@
 package v1
 
 import (
-	v1 "github.com/jwmdev/massa-go/client/proto/massa/model/v1"
+	v1 "github.com/nafsilabs/massa-go/client/proto/massa/model/v1"
 	_ "google.golang.org/genproto/googleapis/api/annotations"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
@@ -1774,8 +1774,8 @@ const file_massa_api_v1_private_proto_rawDesc = "" +
 	"\fSignMessages\x12!.massa.api.v1.SignMessagesRequest\x1a\".massa.api.v1.SignMessagesResponse\"\x1c\x82\xd3\xe4\x93\x02\x16:\x01*\"\x11/v1/sign_messages\x12\x8b\x01\n" +
 	"\x12ShutdownGracefully\x12'.massa.api.v1.ShutdownGracefullyRequest\x1a(.massa.api.v1.ShutdownGracefullyResponse\"\"\x82\xd3\xe4\x93\x02\x1c:\x01*\"\x17/v1/shutdown_gracefully\x12\x81\x01\n" +
 	"\x0fUnbanNodesByIds\x12$.massa.api.v1.UnbanNodesByIdsRequest\x1a%.massa.api.v1.UnbanNodesByIdsResponse\"!\x82\xd3\xe4\x93\x02\x1b:\x01*\"\x16/v1/unban_nodes_by_ids\x12\x81\x01\n" +
-	"\x0fUnbanNodesByIps\x12$.massa.api.v1.UnbanNodesByIpsRequest\x1a%.massa.api.v1.UnbanNodesByIpsResponse\"!\x82\xd3\xe4\x93\x02\x1b:\x01*\"\x16/v1/unban_nodes_by_ipsB\x97\x01\n" +
-	"\x10com.massa.api.v1P\x01Z7github.com/jwmdev/massa-go/client/proto/massa/api/v1;v1\xa2\x02\x04MAPI\xaa\x02\x10Com.Massa.Api.v1\xba\x02\x04MAPI\xca\x02\x10Com\\Massa\\Api\\V1\xea\x02\x13Com::Massa::Api::V1b\x06proto3"
+	"\x0fUnbanNodesByIps\x12$.massa.api.v1.UnbanNodesByIpsRequest\x1a%.massa.api.v1.UnbanNodesByIpsResponse\"!\x82\xd3\xe4\x93\x02\x1b:\x01*\"\x16/v1/unban_nodes_by_ipsB\x9a\x01\n" +
+	"\x10com.massa.api.v1P\x01Z:github.com/nafsilabs/massa-go/client/proto/massa/api/v1;v1\xa2\x02\x04MAPI\xaa\x02\x10Com.Massa.Api.v1\xba\x02\x04MAPI\xca\x02\x10Com\\Massa\\Api\\V1\xea\x02\x13Com::Massa::Api::V1b\x06proto3"
 
 var (
 	file_massa_api_v1_private_proto_rawDescOnce sync.Once

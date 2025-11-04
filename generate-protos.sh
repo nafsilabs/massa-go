@@ -27,7 +27,7 @@ for dir in "${arr[@]}"
 do
     for filename in "$dir"/*.proto; do
         if [ -f "$filename" ]; then
-            sed -i '' 's|option go_package = "github.com/massalabs|option go_package = "github.com/jwmdev/massa-go/client/proto|' "$filename"
+            sed -i '' 's|option go_package = "github.com/massalabs|option go_package = "github.com/nafsilabs/massa-go/client/proto|' "$filename"
         fi
     done
 done

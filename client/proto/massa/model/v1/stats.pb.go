@@ -339,8 +339,8 @@ const file_massa_model_v1_stats_proto_rawDesc = "" +
 	"\x11time_window_start\x18\x01 \x01(\v2\x1a.massa.model.v1.NativeTimeR\x0ftimeWindowStart\x12B\n" +
 	"\x0ftime_window_end\x18\x02 \x01(\v2\x1a.massa.model.v1.NativeTimeR\rtimeWindowEnd\x12*\n" +
 	"\x11final_block_count\x18\x03 \x01(\x04R\x0ffinalBlockCount\x12E\n" +
-	"\x1ffinal_executed_operations_count\x18\x04 \x01(\x04R\x1cfinalExecutedOperationsCountB\xa5\x01\n" +
-	"\x12com.massa.model.v1P\x01Z9github.com/jwmdev/massa-go/client/proto/massa/model/v1;v1\xa2\x02\x06MMODEL\xaa\x02\x12Com.Massa.Model.v1\xba\x02\x06MMODEL\xca\x02\x12Com\\Massa\\Model\\V1\xea\x02\x15Com::Massa::Model::V1b\x06proto3"
+	"\x1ffinal_executed_operations_count\x18\x04 \x01(\x04R\x1cfinalExecutedOperationsCountB\xa8\x01\n" +
+	"\x12com.massa.model.v1P\x01Z<github.com/nafsilabs/massa-go/client/proto/massa/model/v1;v1\xa2\x02\x06MMODEL\xaa\x02\x12Com.Massa.Model.v1\xba\x02\x06MMODEL\xca\x02\x12Com\\Massa\\Model\\V1\xea\x02\x15Com::Massa::Model::V1b\x06proto3"
 
 var (
 	file_massa_model_v1_stats_proto_rawDescOnce sync.Once

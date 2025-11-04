@@ -609,8 +609,8 @@ const file_massa_model_v1_denunciation_proto_rawDesc = "" +
 	"\x13DenunciationAddress\x12+\n" +
 	"\x11address_denounced\x18\x01 \x01(\tR\x10addressDenounced\x12(\n" +
 	"\x04slot\x18\x02 \x01(\v2\x14.massa.model.v1.SlotR\x04slot\x126\n" +
-	"\aslashed\x18\x04 \x01(\v2\x1c.massa.model.v1.NativeAmountR\aslashedB\xa5\x01\n" +
-	"\x12com.massa.model.v1P\x01Z9github.com/jwmdev/massa-go/client/proto/massa/model/v1;v1\xa2\x02\x06MMODEL\xaa\x02\x12Com.Massa.Model.v1\xba\x02\x06MMODEL\xca\x02\x12Com\\Massa\\Model\\V1\xea\x02\x15Com::Massa::Model::V1b\x06proto3"
+	"\aslashed\x18\x04 \x01(\v2\x1c.massa.model.v1.NativeAmountR\aslashedB\xa8\x01\n" +
+	"\x12com.massa.model.v1P\x01Z<github.com/nafsilabs/massa-go/client/proto/massa/model/v1;v1\xa2\x02\x06MMODEL\xaa\x02\x12Com.Massa.Model.v1\xba\x02\x06MMODEL\xca\x02\x12Com\\Massa\\Model\\V1\xea\x02\x15Com::Massa::Model::V1b\x06proto3"
 
 var (
 	file_massa_model_v1_denunciation_proto_rawDescOnce sync.Once

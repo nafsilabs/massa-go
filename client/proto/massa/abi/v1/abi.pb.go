@@ -9,7 +9,7 @@
 package v1
 
 import (
-	v1 "github.com/jwmdev/massa-go/client/proto/massa/model/v1"
+	v1 "github.com/nafsilabs/massa-go/client/proto/massa/model/v1"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	wrapperspb "google.golang.org/protobuf/types/known/wrapperspb"
@@ -8365,8 +8365,8 @@ const file_massa_abi_v1_abi_proto_rawDesc = "" +
 	"\x05bytes\x18\x01 \x01(\fR\x05bytes\"\x10\n" +
 	"\x0eChainIdRequest\"\x1f\n" +
 	"\rChainIdResult\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\x04R\x02idB\x97\x01\n" +
-	"\x10com.massa.abi.v1P\x01Z7github.com/jwmdev/massa-go/client/proto/massa/abi/v1;v1\xa2\x02\x04MABI\xaa\x02\x10Com.Massa.Abi.V1\xba\x02\x04MABI\xca\x02\x10Com\\Massa\\Abi\\V1\xea\x02\x13Com::Massa::Abi::V1b\x06proto3"
+	"\x02id\x18\x01 \x01(\x04R\x02idB\x9a\x01\n" +
+	"\x10com.massa.abi.v1P\x01Z:github.com/nafsilabs/massa-go/client/proto/massa/abi/v1;v1\xa2\x02\x04MABI\xaa\x02\x10Com.Massa.Abi.V1\xba\x02\x04MABI\xca\x02\x10Com\\Massa\\Abi\\V1\xea\x02\x13Com::Massa::Abi::V1b\x06proto3"
 
 var (
 	file_massa_abi_v1_abi_proto_rawDescOnce sync.Once

@@ -154,8 +154,8 @@ const file_massa_model_v1_draw_proto_rawDesc = "" +
 	"\x11endorsement_draws\x18\x03 \x03(\v2\x1f.massa.model.v1.EndorsementDrawR\x10endorsementDraws\"C\n" +
 	"\x0fEndorsementDraw\x12\x14\n" +
 	"\x05index\x18\x01 \x01(\x04R\x05index\x12\x1a\n" +
-	"\bproducer\x18\x02 \x01(\tR\bproducerB\xa5\x01\n" +
-	"\x12com.massa.model.v1P\x01Z9github.com/jwmdev/massa-go/client/proto/massa/model/v1;v1\xa2\x02\x06MMODEL\xaa\x02\x12Com.Massa.Model.v1\xba\x02\x06MMODEL\xca\x02\x12Com\\Massa\\Model\\V1\xea\x02\x15Com::Massa::Model::V1b\x06proto3"
+	"\bproducer\x18\x02 \x01(\tR\bproducerB\xa8\x01\n" +
+	"\x12com.massa.model.v1P\x01Z<github.com/nafsilabs/massa-go/client/proto/massa/model/v1;v1\xa2\x02\x06MMODEL\xaa\x02\x12Com.Massa.Model.v1\xba\x02\x06MMODEL\xca\x02\x12Com\\Massa\\Model\\V1\xea\x02\x15Com::Massa::Model::V1b\x06proto3"
 
 var (
 	file_massa_model_v1_draw_proto_rawDescOnce sync.Once

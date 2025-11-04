@@ -1060,8 +1060,8 @@ const file_massa_model_v1_operation_proto_rawDesc = "" +
 	"\x10OP_TYPE_ROLL_BUY\x10\x02\x12\x15\n" +
 	"\x11OP_TYPE_ROLL_SELL\x10\x03\x12\x16\n" +
 	"\x12OP_TYPE_EXECUTE_SC\x10\x04\x12\x13\n" +
-	"\x0fOP_TYPE_CALL_SC\x10\x05B\xa5\x01\n" +
-	"\x12com.massa.model.v1P\x01Z9github.com/jwmdev/massa-go/client/proto/massa/model/v1;v1\xa2\x02\x06MMODEL\xaa\x02\x12Com.Massa.Model.v1\xba\x02\x06MMODEL\xca\x02\x12Com\\Massa\\Model\\V1\xea\x02\x15Com::Massa::Model::V1b\x06proto3"
+	"\x0fOP_TYPE_CALL_SC\x10\x05B\xa8\x01\n" +
+	"\x12com.massa.model.v1P\x01Z<github.com/nafsilabs/massa-go/client/proto/massa/model/v1;v1\xa2\x02\x06MMODEL\xaa\x02\x12Com.Massa.Model.v1\xba\x02\x06MMODEL\xca\x02\x12Com\\Massa\\Model\\V1\xea\x02\x15Com::Massa::Model::V1b\x06proto3"
 
 var (
 	file_massa_model_v1_operation_proto_rawDescOnce sync.Once

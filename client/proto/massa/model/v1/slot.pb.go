@@ -250,8 +250,8 @@ const file_massa_model_v1_slot_proto_rawDesc = "" +
 	"\tSlotRange\x123\n" +
 	"\n" +
 	"start_slot\x18\x01 \x01(\v2\x14.massa.model.v1.SlotR\tstartSlot\x12/\n" +
-	"\bend_slot\x18\x02 \x01(\v2\x14.massa.model.v1.SlotR\aendSlotB\xa5\x01\n" +
-	"\x12com.massa.model.v1P\x01Z9github.com/jwmdev/massa-go/client/proto/massa/model/v1;v1\xa2\x02\x06MMODEL\xaa\x02\x12Com.Massa.Model.v1\xba\x02\x06MMODEL\xca\x02\x12Com\\Massa\\Model\\V1\xea\x02\x15Com::Massa::Model::V1b\x06proto3"
+	"\bend_slot\x18\x02 \x01(\v2\x14.massa.model.v1.SlotR\aendSlotB\xa8\x01\n" +
+	"\x12com.massa.model.v1P\x01Z<github.com/nafsilabs/massa-go/client/proto/massa/model/v1;v1\xa2\x02\x06MMODEL\xaa\x02\x12Com.Massa.Model.v1\xba\x02\x06MMODEL\xca\x02\x12Com\\Massa\\Model\\V1\xea\x02\x15Com::Massa::Model::V1b\x06proto3"
 
 var (
 	file_massa_model_v1_slot_proto_rawDescOnce sync.Once

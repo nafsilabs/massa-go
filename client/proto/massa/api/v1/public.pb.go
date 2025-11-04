@@ -9,7 +9,7 @@
 package v1
 
 import (
-	v1 "github.com/jwmdev/massa-go/client/proto/massa/model/v1"
+	v1 "github.com/nafsilabs/massa-go/client/proto/massa/model/v1"
 	_ "google.golang.org/genproto/googleapis/api/annotations"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
@@ -9495,8 +9495,8 @@ const file_massa_api_v1_public_proto_rawDesc = "" +
 	"\x0eSendOperations\x12#.massa.api.v1.SendOperationsRequest\x1a$.massa.api.v1.SendOperationsResponse\"\x00(\x010\x01\x12y\n" +
 	"\x16TransactionsThroughput\x12+.massa.api.v1.TransactionsThroughputRequest\x1a,.massa.api.v1.TransactionsThroughputResponse\"\x00(\x010\x01\x12\x89\x01\n" +
 	"\x1cTransactionsThroughputServer\x121.massa.api.v1.TransactionsThroughputServerRequest\x1a2.massa.api.v1.TransactionsThroughputServerResponse\"\x000\x01\x12w\n" +
-	"\x16NewTransfersInfoServer\x12+.massa.api.v1.NewTransfersInfoServerRequest\x1a,.massa.api.v1.NewTransfersInfoServerResponse\"\x000\x01B\x97\x01\n" +
-	"\x10com.massa.api.v1P\x01Z7github.com/jwmdev/massa-go/client/proto/massa/api/v1;v1\xa2\x02\x04MAPI\xaa\x02\x10Com.Massa.Api.v1\xba\x02\x04MAPI\xca\x02\x10Com\\Massa\\Api\\V1\xea\x02\x13Com::Massa::Api::V1b\x06proto3"
+	"\x16NewTransfersInfoServer\x12+.massa.api.v1.NewTransfersInfoServerRequest\x1a,.massa.api.v1.NewTransfersInfoServerResponse\"\x000\x01B\x9a\x01\n" +
+	"\x10com.massa.api.v1P\x01Z:github.com/nafsilabs/massa-go/client/proto/massa/api/v1;v1\xa2\x02\x04MAPI\xaa\x02\x10Com.Massa.Api.v1\xba\x02\x04MAPI\xca\x02\x10Com\\Massa\\Api\\V1\xea\x02\x13Com::Massa::Api::V1b\x06proto3"
 
 var (
 	file_massa_api_v1_public_proto_rawDescOnce sync.Once
