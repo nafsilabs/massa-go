@@ -309,3 +309,34 @@ func (c *MassaClient) ReadOnlyCallSC(
 
 	return resp.Output, nil
 }
+
+// GetDatastoreEntries fetches datastore entries for a given contract address
+// and a list of keys. It returns the protobuf model DatastoreEntry objects
+// (which contain candidate and final values).
+func (c *MassaClient) GetDatastoreEntries(ctx context.Context, address string, keys [][]byte) ([]*model.DatastoreEntry, error) {
+	// Build filters for each address-key pair
+	filters := make([]*pb.GetDatastoreEntryFilter, len(keys))
+	for i, key := range keys {
+		filters[i] = &pb.GetDatastoreEntryFilter{
+			Filter: &pb.GetDatastoreEntryFilter_AddressKey{
+				AddressKey: &model.AddressKeyEntry{
+					Address: address,
+					Key:     key,
+				},
+			},
+		}
+	}
+
+	req := &pb.GetDatastoreEntriesRequest{Filters: filters}
+
+	resp, err := c.PublicClient.GetDatastoreEntries(ctx, req)
+	if err != nil {
+		return nil, fmt.Errorf("GetDatastoreEntries gRPC error: %w", err)
+	}
+
+	if resp == nil {
+		return nil, fmt.Errorf("empty GetDatastoreEntries response")
+	}
+
+	return resp.GetDatastoreEntries(), nil
+}
