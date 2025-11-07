@@ -1,0 +1,55 @@
+name: Release
+
+on:
+    release:
+        types: [published]
+
+jobs:
+    publish:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v4
+
+            - name: Set up Go
+              uses: actions/setup-go@v4
+              with:
+                  go-version: "1.24"
+
+            - name: Run tests
+              run: go test ./... -v
+
+            - name: Find main packages
+              id: mains
+              run: |
+                  echo "Finding main packages..."
+                  pkgs=$(go list -f '{{if eq .Name "main"}}{{.ImportPath}}{{end}}' ./...)
+                  echo "pkgs<<EOF" >> $GITHUB_OUTPUT
+                  echo "$pkgs" >> $GITHUB_OUTPUT
+                  echo "EOF" >> $GITHUB_OUTPUT
+
+            - name: Build binaries (linux/darwin/windows amd64)
+              run: |
+                  set -e
+                  mkdir -p dist
+                  for pkg in ${{ steps.mains.outputs.pkgs }}; do
+                    if [ -z "$pkg" ]; then continue; fi
+                    name=$(basename $pkg)
+                    echo "Building $pkg -> $name"
+                    GOOS=linux GOARCH=amd64 go build -o dist/${name}_linux_amd64 $pkg
+                    GOOS=darwin GOARCH=amd64 go build -o dist/${name}_darwin_amd64 $pkg || true
+                    GOOS=windows GOARCH=amd64 go build -o dist/${name}_windows_amd64.exe $pkg || true
+                  done
+
+            - name: Create release archive
+              run: |
+                  mkdir -p dist
+                  tar -czf dist/release-${{ github.event.release.tag_name }}.tar.gz -C dist . || true
+
+            - name: Upload release assets
+              uses: actions/upload-release-asset@v1
+              with:
+                  upload_url: ${{ github.event.release.upload_url }}
+                  asset_path: dist/release-${{ github.event.release.tag_name }}.tar.gz
+                  asset_name: release-${{ github.event.release.tag_name }}.tar.gz
+                  asset_content_type: application/gzip
