@@ -75,7 +75,14 @@ func (a *Args) AddU32Array(v []uint32) {
 	}
 	a.ser.WriteArrayBytes(arrArg.Serialise())
 }
-func (a *Args) AddI32(v int32)    { a.ser.WriteI32(v) }
+func (a *Args) AddI32(v int32) { a.ser.WriteI32(v) }
+func (a *Args) AddI32Array(v []int32) {
+	arrArg := NewArgs(nil)
+	for _, item := range v {
+		arrArg.AddI32(item)
+	}
+	a.ser.WriteArrayBytes(arrArg.Serialise())
+}
 func (a *Args) AddU64(v *big.Int) { a.ser.WriteU64(v.Uint64()) }
 func (a *Args) AddU64Array(v []uint64) {
 	arrArg := NewArgs(nil)
@@ -84,7 +91,14 @@ func (a *Args) AddU64Array(v []uint64) {
 	}
 	a.ser.WriteArrayBytes(arrArg.Serialise())
 }
-func (a *Args) AddI64(v *big.Int)  { a.ser.WriteI64(int64(v.Int64())) }
+func (a *Args) AddI64(v *big.Int) { a.ser.WriteI64(int64(v.Int64())) }
+func (a *Args) AddI64Array(v []*big.Int) {
+	arrArg := NewArgs(nil)
+	for _, item := range v {
+		arrArg.AddI64(item)
+	}
+	a.ser.WriteArrayBytes(arrArg.Serialise())
+}
 func (a *Args) AddU128(v *big.Int) { a.ser.WriteU128(v) }
 func (a *Args) AddU128Array(v []*big.Int) {
 	arrArg := NewArgs(nil)
