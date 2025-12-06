@@ -253,6 +253,21 @@ func TestContract(t *testing.T) {
 }
 ```
 
+## 📦 Publishing
+
+Create an annotated tag and push it to the remote:
+
+```bash
+# create an annotated tag
+git tag -a vX.Y.Z -m "Release vX.Y.Z"
+
+# push the specific tag to origin
+git push origin vX.Y.Z
+
+# (optional) push all local tags
+git push --tags
+```
+
 ## 🔐 Security Best Practices
 
 1. **Input Validation**: Always validate addresses, amounts, and parameters

@@ -21,6 +21,60 @@ func TestArgsStringRoundTrip(t *testing.T) {
 	}
 }
 
+func TestArgsUint32ArrayComparison(t *testing.T) {
+	//first := uint32(10)
+	aa := NewArgs(nil)
+	//aa.AddU32(first)
+
+	values := []uint32{100, 200, 300, 400, 500}
+
+	// Approach 1: Add individually
+	a := NewArgs(nil)
+	for _, v := range values {
+		a.AddU32(v)
+	}
+	aa.AddArray(a.Serialise()) //258,000/-
+	data1 := aa.Serialise()
+
+	// Approach 2: Use AddU32Array
+	b := NewArgs(nil)
+	//b.AddU32(first)
+	b.AddU32Array(values)
+	data2 := b.Serialise()
+
+	// Compare serialized results
+	if !reflect.DeepEqual(data1, data2) {
+		t.Fatalf("serialized data mismatch:\nindividual: %v\narray:      %v", data1, data2)
+	}
+
+	// Verify deserialization from approach 1
+	c := NewArgs(data1)
+	data1Bytes, err := c.NextArray()
+	if err != nil {
+		t.Fatalf("NextArray error: %v", err)
+	}
+	c = NewArgs(data1Bytes)
+	for i, want := range values {
+		got, err := c.NextU32()
+		if err != nil {
+			t.Fatalf("NextU32 error at index %d: %v", i, err)
+		}
+		if got != want {
+			t.Fatalf("value mismatch at index %d: got %d want %d", i, got, want)
+		}
+	}
+
+	// Verify deserialization from approach 2
+	d := NewArgs(data2)
+	gotArray, err := d.NextU32Array()
+	if err != nil {
+		t.Fatalf("NextUint32Array error: %v", err)
+	}
+	if !reflect.DeepEqual(gotArray, values) {
+		t.Fatalf("array mismatch: got %v want %v", gotArray, values)
+	}
+}
+
 func TestArgsArrayRoundTrip(t *testing.T) {
 	a := NewArgs(nil)
 	in := []byte{1, 2, 3, 4, 5}

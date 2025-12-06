@@ -56,19 +56,61 @@ func (a *Args) advanceFromReader(d *Deserializer, before int) {
 }
 
 // --- Add (serialize) methods ---
-func (a *Args) AddBool(v bool)       { a.ser.WriteBool(v) }
-func (a *Args) AddU8(v uint8)        { a.ser.WriteUint8(v) }
-func (a *Args) AddU16(v uint16)      { a.ser.WriteU16(v) }
-func (a *Args) AddI16(v int16)       { a.ser.WriteI16(v) }
-func (a *Args) AddU32(v uint32)      { a.ser.WriteUint32LE(v) }
-func (a *Args) AddI32(v int32)       { a.ser.WriteI32(v) }
-func (a *Args) AddU64(v *big.Int)    { a.ser.WriteU64(v.Uint64()) }
-func (a *Args) AddI64(v *big.Int)    { a.ser.WriteI64(int64(v.Int64())) }
-func (a *Args) AddU128(v *big.Int)   { a.ser.WriteU128(v) }
-func (a *Args) AddU256(v *big.Int)   { a.ser.WriteU256(v) }
-func (a *Args) AddF32(v float32)     { a.ser.WriteF32(v) }
-func (a *Args) AddF64(v float64)     { a.ser.WriteF64(v) }
-func (a *Args) AddString(s string)   { a.ser.WriteStringLE(s) }
+func (a *Args) AddBool(v bool)  { a.ser.WriteBool(v) }
+func (a *Args) AddU8(v uint8)   { a.ser.WriteUint8(v) }
+func (a *Args) AddU16(v uint16) { a.ser.WriteU16(v) }
+func (a *Args) AddU16Array(v []uint16) {
+	arrArg := NewArgs(nil)
+	for _, item := range v {
+		arrArg.AddU16(item)
+	}
+	a.ser.WriteArrayBytes(arrArg.Serialise())
+}
+func (a *Args) AddI16(v int16)  { a.ser.WriteI16(v) }
+func (a *Args) AddU32(v uint32) { a.ser.WriteUint32LE(v) }
+func (a *Args) AddU32Array(v []uint32) {
+	arrArg := NewArgs(nil)
+	for _, item := range v {
+		arrArg.AddU32(item)
+	}
+	a.ser.WriteArrayBytes(arrArg.Serialise())
+}
+func (a *Args) AddI32(v int32)    { a.ser.WriteI32(v) }
+func (a *Args) AddU64(v *big.Int) { a.ser.WriteU64(v.Uint64()) }
+func (a *Args) AddU64Array(v []uint64) {
+	arrArg := NewArgs(nil)
+	for _, item := range v {
+		arrArg.AddU64(big.NewInt(0).SetUint64(item))
+	}
+	a.ser.WriteArrayBytes(arrArg.Serialise())
+}
+func (a *Args) AddI64(v *big.Int)  { a.ser.WriteI64(int64(v.Int64())) }
+func (a *Args) AddU128(v *big.Int) { a.ser.WriteU128(v) }
+func (a *Args) AddU128Array(v []*big.Int) {
+	arrArg := NewArgs(nil)
+	for _, item := range v {
+		arrArg.AddU128(item)
+	}
+	a.ser.WriteArrayBytes(arrArg.Serialise())
+}
+func (a *Args) AddU256(v *big.Int) { a.ser.WriteU256(v) }
+func (a *Args) AddU256Array(v []*big.Int) {
+	arrArg := NewArgs(nil)
+	for _, item := range v {
+		arrArg.AddU256(item)
+	}
+	a.ser.WriteArrayBytes(arrArg.Serialise())
+}
+func (a *Args) AddF32(v float32)   { a.ser.WriteF32(v) }
+func (a *Args) AddF64(v float64)   { a.ser.WriteF64(v) }
+func (a *Args) AddString(s string) { a.ser.WriteStringLE(s) }
+func (a *Args) AddStringArray(v []string) {
+	arrArg := NewArgs(nil)
+	for _, item := range v {
+		arrArg.AddString(item)
+	}
+	a.ser.WriteArrayBytes(arrArg.Serialise())
+}
 func (a *Args) AddArray(data []byte) { a.ser.WriteArrayBytes(data) }
 
 // --- Next (deserialize) methods ---
@@ -105,6 +147,28 @@ func (a *Args) NextU16() (uint16, error) {
 	return v, nil
 }
 
+func (a *Args) NextU16Array() ([]uint16, error) {
+	d := a.newDeserializerAtOffset()
+	before := d.r.Len()
+	b, err := d.ReadBytesLE()
+	if err != nil {
+		return nil, fmt.Errorf("NextU16Array: %w", err)
+	}
+	a.advanceFromReader(d, before)
+
+	// now deserialize the array of u16 from b
+	arrDeser := &Deserializer{r: bytes.NewReader(b)}
+	var result []uint16
+	for arrDeser.r.Len() > 0 {
+		v, err := arrDeser.ReadU16()
+		if err != nil {
+			return nil, fmt.Errorf("NextU16Array inner: %w", err)
+		}
+		result = append(result, v)
+	}
+	return result, nil
+}
+
 func (a *Args) NextI16() (int16, error) {
 	v, err := a.NextU16()
 	if err != nil {
@@ -122,6 +186,28 @@ func (a *Args) NextU32() (uint32, error) {
 	}
 	a.advanceFromReader(d, before)
 	return v, nil
+}
+
+func (a *Args) NextU32Array() ([]uint32, error) {
+	d := a.newDeserializerAtOffset()
+	before := d.r.Len()
+	b, err := d.ReadBytesLE()
+	if err != nil {
+		return nil, fmt.Errorf("NextU32Array: %w", err)
+	}
+	a.advanceFromReader(d, before)
+
+	// now deserialize the array of u32 from b
+	arrDeser := &Deserializer{r: bytes.NewReader(b)}
+	var result []uint32
+	for arrDeser.r.Len() > 0 {
+		v, err := arrDeser.ReadUint32LE()
+		if err != nil {
+			return nil, fmt.Errorf("NextU32Array inner: %w", err)
+		}
+		result = append(result, v)
+	}
+	return result, nil
 }
 
 func (a *Args) NextI32() (int32, error) {
@@ -142,6 +228,27 @@ func (a *Args) NextU64() (*big.Int, error) {
 	a.advanceFromReader(d, before)
 	return big.NewInt(0).SetUint64(v), nil
 }
+func (a *Args) NextU64Array() ([]uint64, error) {
+	d := a.newDeserializerAtOffset()
+	before := d.r.Len()
+	b, err := d.ReadBytesLE()
+	if err != nil {
+		return nil, fmt.Errorf("NextU64Array: %w", err)
+	}
+	a.advanceFromReader(d, before)
+
+	// now deserialize the array of u64 from b
+	arrDeser := &Deserializer{r: bytes.NewReader(b)}
+	var result []uint64
+	for arrDeser.r.Len() > 0 {
+		v, err := arrDeser.ReadUint64LE()
+		if err != nil {
+			return nil, fmt.Errorf("NextU64Array inner: %w", err)
+		}
+		result = append(result, v)
+	}
+	return result, nil
+}
 
 func (a *Args) NextI64() (*big.Int, error) { return a.NextU64() }
 
@@ -156,6 +263,29 @@ func (a *Args) NextU128() (*big.Int, error) {
 	return bytesToBigIntLE(b), nil
 }
 
+func (a *Args) NextU128Array() ([]*big.Int, error) {
+	d := a.newDeserializerAtOffset()
+	before := d.r.Len()
+	b, err := d.ReadBytesLE()
+	if err != nil {
+		return nil, fmt.Errorf("NextU128Array: %w", err)
+	}
+	a.advanceFromReader(d, before)
+
+	// now deserialize the array of u128 from b
+	arrDeser := &Deserializer{r: bytes.NewReader(b)}
+	var result []*big.Int
+	for arrDeser.r.Len() > 0 {
+		elemBytes, err := arrDeser.ReadRaw(16)
+		if err != nil {
+			return nil, fmt.Errorf("NextU128Array inner: %w", err)
+		}
+		v := bytesToBigIntLE(elemBytes)
+		result = append(result, v)
+	}
+	return result, nil
+}
+
 func (a *Args) NextU256() (*big.Int, error) {
 	d := a.newDeserializerAtOffset()
 	before := d.r.Len()
@@ -165,6 +295,31 @@ func (a *Args) NextU256() (*big.Int, error) {
 	}
 	a.advanceFromReader(d, before)
 	return bytesToBigIntLE(b), nil
+}
+
+func (a *Args) NextU256Array() ([]*big.Int, error) {
+	{
+		d := a.newDeserializerAtOffset()
+		before := d.r.Len()
+		b, err := d.ReadBytesLE()
+		if err != nil {
+			return nil, fmt.Errorf("NextU256Array: %w", err)
+		}
+		a.advanceFromReader(d, before)
+
+		// now deserialize the array of u256 from b
+		arrDeser := &Deserializer{r: bytes.NewReader(b)}
+		var result []*big.Int
+		for arrDeser.r.Len() > 0 {
+			elemBytes, err := arrDeser.ReadRaw(32)
+			if err != nil {
+				return nil, fmt.Errorf("NextU256Array inner: %w", err)
+			}
+			v := bytesToBigIntLE(elemBytes)
+			result = append(result, v)
+		}
+		return result, nil
+	}
 }
 
 func (a *Args) NextF32() (float32, error) {
