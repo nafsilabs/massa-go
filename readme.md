@@ -18,7 +18,7 @@ A comprehensive Go toolkit for the Massa blockchain ecosystem, providing smart c
 ## Installation
 
 ```bash
-go get -u github.com/nafsilabs/massa-go
+go get github.com/nafsilabs/massa-go
 ```
 
 
@@ -147,13 +147,11 @@ Complete examples demonstrating:
 
 ## 🏃‍♂️ Quick Start
 
-### 1. Install Dependencies
+### 1. Initialize your project
 
 ```bash
 go mod init your-massa-project
-go get github.com/nafsilabs/massa-go/sc
-go get github.com/nafsilabs/massa-go/client
-go get github.com/nafsilabs/massa-go/wallet
+go get github.com/nafsilabs/massa-go
 ```
 
 ### 2. Create a Smart Contract
@@ -181,15 +179,40 @@ go build -ldflags="-s -w" -o contract.wasm main.go
 ### 4. Deploy and Interact
 
 ```go
-// Use the client and wallet packages to deploy and interact
-// See examples/ directory for complete implementations
+package main
+
+import (
+    "context"
+    "log"
+
+    "github.com/nafsilabs/massa-go"
+)
+
+func main() {
+    // Create a Massa gRPC client
+    client, err := massa.NewMassaClient(&massa.ClientConfig{
+        Address: "testnet.massa.net:33035",
+    })
+    if err != nil {
+        log.Fatal(err)
+    }
+    defer client.Close()
+
+    ctx := context.Background()
+
+    // Use wallet and client together (see examples/ for full flows)
+    // ...
+
+    _ = ctx
+}
 ```
 
 ## 🏗️ Project Structure
 
 ```
 massa-go/
-├── sc/                     # Smart Contract SDK
+├── massa.go               # High-level SDK entrypoint
+├── sc/                    # Smart Contract SDK
 │   ├── sc.go              # WebAssembly imports
 │   ├── address.go         # Address operations
 │   ├── storage.go         # Storage functions
@@ -200,9 +223,7 @@ massa-go/
 │   ├── crypto.go          # Cryptographic functions
 │   └── op_datastore.go    # Operation datastore
 ├── client/                # Blockchain client
-│   └── go.mod
 ├── wallet/                # Wallet management
-│   └── go.mod
 ├── examples/
 │   └── smart_contract/    # Example smart contract
 │       ├── main.go        # Contract implementation
